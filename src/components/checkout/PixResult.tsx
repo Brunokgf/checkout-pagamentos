@@ -14,8 +14,10 @@ export const PixResult = ({ data, product, onBack }: PixResultProps) => {
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
 
-  const pixCode = data?.pix?.qr_code || data?.qr_code || data?.pix_code || "";
-  const pixQrCodeUrl = data?.pix?.qr_code_url || data?.qr_code_url || "";
+  const pixCode = data?.pix?.qrcode || data?.pix?.qr_code || data?.qr_code || data?.pix_code || "";
+  const pixQrCodeUrl = pixCode
+    ? `https://api.qrserver.com/v1/create-qr-code/?size=224x224&data=${encodeURIComponent(pixCode)}`
+    : "";
 
   const handleCopy = async () => {
     if (!pixCode) return;
