@@ -18,9 +18,9 @@ export interface CustomerData {
 export type PaymentMethod = "pix" | "card";
 
 const PRODUCT = {
-  name: "Produto Premium",
+  name: "Slepp",
   description: "Descrição do seu produto aqui",
-  price: 197.0,
+  price: 99.0,
   image: "/placeholder.svg",
 };
 
