@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,6 +11,10 @@ import { QrCode, CreditCard, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import type { CustomerData, PaymentMethod } from "@/pages/Index";
+
+const maskCPF = (v: string) => v.replace(/\D/g, "").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2").slice(0, 14);
+const maskPhone = (v: string) => v.replace(/\D/g, "").replace(/(\d{2})(\d)/, "($1) $2").replace(/(\d{5})(\d)/, "$1-$2").slice(0, 15);
+const maskCEP = (v: string) => v.replace(/\D/g, "").replace(/(\d{5})(\d)/, "$1-$2").slice(0, 9);
 
 const formSchema = z.object({
   name: z.string().trim().min(3, "Nome deve ter no mínimo 3 caracteres").max(100),
@@ -125,14 +129,14 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
               <FormField control={form.control} name="phone" render={({ field }) => (
                 <FormItem>
                   <FormLabel>Telefone</FormLabel>
-                  <FormControl><Input placeholder="(11) 99999-9999" {...field} /></FormControl>
+                  <FormControl><Input placeholder="(11) 99999-9999" {...field} onChange={(e) => field.onChange(maskPhone(e.target.value))} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
               <FormField control={form.control} name="cpf" render={({ field }) => (
                 <FormItem>
                   <FormLabel>CPF</FormLabel>
-                  <FormControl><Input placeholder="000.000.000-00" {...field} /></FormControl>
+                  <FormControl><Input placeholder="000.000.000-00" {...field} onChange={(e) => field.onChange(maskCPF(e.target.value))} /></FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
@@ -167,7 +171,7 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
                   <FormField control={form.control} name="zip" render={({ field }) => (
                     <FormItem>
                       <FormLabel>CEP</FormLabel>
-                      <FormControl><Input placeholder="00000-000" {...field} /></FormControl>
+                      <FormControl><Input placeholder="00000-000" {...field} onChange={(e) => field.onChange(maskCEP(e.target.value))} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
