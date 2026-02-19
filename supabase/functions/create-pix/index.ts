@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { amount, customer } = await req.json();
+    const { amount, customer, productName } = await req.json();
 
     if (!amount || !customer?.name || !customer?.email || !customer?.cpf) {
       return new Response(
@@ -39,7 +39,15 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         amount,
-        payment_method: "pix",
+        paymentMethod: "pix",
+        items: [
+          {
+            title: productName || "Slepp",
+            unitPrice: amount,
+            quantity: 1,
+            tangible: true,
+          },
+        ],
         customer: {
           name: customer.name,
           email: customer.email,
