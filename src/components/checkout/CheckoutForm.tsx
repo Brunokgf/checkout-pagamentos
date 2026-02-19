@@ -63,6 +63,7 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
         const { data, error } = await supabase.functions.invoke("create-pix", {
           body: {
             amount: product.price * 100, // centavos
+            productName: product.name,
             customer: {
               name: values.name,
               email: values.email,
