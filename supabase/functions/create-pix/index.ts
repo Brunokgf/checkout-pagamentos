@@ -51,7 +51,10 @@ serve(async (req) => {
         customer: {
           name: customer.name,
           email: customer.email,
-          document: customer.cpf,
+          document: {
+            number: customer.cpf,
+            type: customer.cpf.length <= 11 ? "cpf" : "cnpj",
+          },
         },
       }),
     });
