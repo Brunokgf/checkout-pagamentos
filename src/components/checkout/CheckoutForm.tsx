@@ -113,10 +113,10 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
 
   return (
     <Card className="border-border shadow-sm">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg">Dados do Comprador</CardTitle>
+      <CardHeader className="pb-3 sm:pb-4">
+        <CardTitle className="text-base sm:text-lg">Dados do Comprador</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-3 sm:px-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* Personal info */}
@@ -245,7 +245,7 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
               </Tabs>
             </div>
 
-            <Button type="submit" size="lg" className="w-full text-base font-semibold" disabled={loading}>
+            <Button type="submit" size="lg" className="w-full text-sm sm:text-base font-semibold min-h-[48px]" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />

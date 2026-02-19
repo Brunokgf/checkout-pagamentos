@@ -19,11 +19,11 @@ export const OrderSummary = ({ product }: OrderSummaryProps) => {
 
   return (
     <div className="space-y-4">
-      <Card className="sticky top-8 border-border shadow-sm">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg">Resumo do Pedido</CardTitle>
+      <Card className="sticky top-4 sm:top-8 border-border shadow-sm">
+        <CardHeader className="pb-3 sm:pb-4">
+          <CardTitle className="text-base sm:text-lg">Resumo do Pedido</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6">
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Subtotal</span>
