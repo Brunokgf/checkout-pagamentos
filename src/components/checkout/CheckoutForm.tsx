@@ -15,6 +15,9 @@ import type { CustomerData, PaymentMethod } from "@/pages/Index";
 const maskCPF = (v: string) => v.replace(/\D/g, "").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2").slice(0, 14);
 const maskPhone = (v: string) => v.replace(/\D/g, "").replace(/(\d{2})(\d)/, "($1) $2").replace(/(\d{5})(\d)/, "$1-$2").slice(0, 15);
 const maskCEP = (v: string) => v.replace(/\D/g, "").replace(/(\d{5})(\d)/, "$1-$2").slice(0, 9);
+const maskCard = (v: string) => v.replace(/\D/g, "").replace(/(\d{4})(?=\d)/g, "$1 ").trim().slice(0, 19);
+const maskExpiry = (v: string) => v.replace(/\D/g, "").replace(/(\d{2})(\d)/, "$1/$2").slice(0, 5);
+const maskCVV = (v: string) => v.replace(/\D/g, "").slice(0, 4);
 
 const formSchema = z.object({
   name: z.string().trim().min(3, "Nome deve ter no mínimo 3 caracteres").max(100),
@@ -25,6 +28,10 @@ const formSchema = z.object({
   city: z.string().trim().min(2, "Cidade inválida").max(100),
   state: z.string().trim().min(2, "Estado inválido").max(2),
   zip: z.string().trim().min(8, "CEP inválido").max(9),
+  cardNumber: z.string().optional(),
+  cardExpiry: z.string().optional(),
+  cardCVV: z.string().optional(),
+  cardCpf: z.string().optional(),
 });
 
 interface CheckoutFormProps {
@@ -42,6 +49,7 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
     defaultValues: {
       name: "", email: "", cpf: "", phone: "",
       address: "", city: "", state: "", zip: "",
+      cardNumber: "", cardExpiry: "", cardCVV: "", cardCpf: "",
     },
   });
 
@@ -199,10 +207,38 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
                     <p className="mt-1">Após confirmar, você receberá o QR Code para pagamento.</p>
                   </div>
                 </TabsContent>
-                <TabsContent value="card" className="mt-4">
-                  <div className="rounded-lg border border-border bg-muted/50 p-4 text-sm text-muted-foreground">
-                    <p className="font-medium text-foreground">Pagamento via Cartão de Crédito</p>
-                    <p className="mt-1">Seu pedido será registrado e entraremos em contato para finalizar o pagamento.</p>
+                <TabsContent value="card" className="mt-4 space-y-4">
+                  <div className="grid gap-4">
+                    <FormField control={form.control} name="cardNumber" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Número do cartão</FormLabel>
+                        <FormControl><Input placeholder="0000 0000 0000 0000" {...field} onChange={(e) => field.onChange(maskCard(e.target.value))} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField control={form.control} name="cardExpiry" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Validade</FormLabel>
+                          <FormControl><Input placeholder="MM/AA" {...field} onChange={(e) => field.onChange(maskExpiry(e.target.value))} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                      <FormField control={form.control} name="cardCVV" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>CVV</FormLabel>
+                          <FormControl><Input placeholder="000" {...field} onChange={(e) => field.onChange(maskCVV(e.target.value))} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                    </div>
+                    <FormField control={form.control} name="cardCpf" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>CPF do titular</FormLabel>
+                        <FormControl><Input placeholder="000.000.000-00" {...field} onChange={(e) => field.onChange(maskCPF(e.target.value))} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
                   </div>
                 </TabsContent>
               </Tabs>
