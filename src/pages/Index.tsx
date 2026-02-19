@@ -31,10 +31,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border bg-primary">
+      <header className="border-b border-border bg-accent">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <img src={logo} alt="PagSeguro" className="h-10" />
-          <div className="flex items-center gap-2 text-sm text-primary-foreground/80">
+          <div className="flex items-center gap-2 text-sm text-accent-foreground/80">
             <Lock className="h-4 w-4" />
             <span>Pagamento Seguro</span>
           </div>
