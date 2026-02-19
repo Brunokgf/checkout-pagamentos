@@ -31,10 +31,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border bg-accent">
+      <header className="border-b border-primary bg-primary">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <img src={logo} alt="PagSeguro" className="h-10" />
-          <div className="flex items-center gap-2 text-sm text-accent-foreground/80">
+          <div className="flex items-center gap-2 text-sm text-primary-foreground/80">
             <Lock className="h-4 w-4" />
             <span>Pagamento Seguro</span>
           </div>
@@ -60,8 +60,8 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border py-6">
-        <div className="mx-auto flex max-w-5xl items-center justify-center gap-2 px-4 text-sm text-muted-foreground">
+      <footer className="border-t border-accent bg-accent py-6">
+        <div className="mx-auto flex max-w-5xl items-center justify-center gap-2 px-4 text-sm text-accent-foreground">
           <Shield className="h-4 w-4" />
           <span>Seus dados estão protegidos com criptografia SSL</span>
         </div>
