@@ -24,20 +24,6 @@ export const OrderSummary = ({ product }: OrderSummaryProps) => {
           <CardTitle className="text-lg">Resumo do Pedido</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex gap-4">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="h-20 w-20 rounded-lg border border-border bg-muted object-cover"
-            />
-            <div className="flex-1">
-              <h3 className="font-semibold">{product.name}</h3>
-              <p className="text-sm text-muted-foreground">{product.description}</p>
-            </div>
-          </div>
-
-          <Separator />
-
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Subtotal</span>
