@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -43,6 +44,7 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("pix");
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -93,10 +95,7 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
 
         if (!res.ok) throw new Error("Erro ao enviar formulário");
 
-        toast({
-          title: "Pedido recebido!",
-          description: "Entraremos em contato para finalizar o pagamento via cartão.",
-        });
+        navigate("/pagamento-concluido");
       }
     } catch (err: any) {
       console.error(err);
