@@ -68,6 +68,7 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
               name: values.name,
               email: values.email,
               cpf: values.cpf.replace(/\D/g, ""),
+              phone: values.phone.replace(/\D/g, ""),
             },
           },
         });

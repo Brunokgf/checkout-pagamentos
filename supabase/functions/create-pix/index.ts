@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { amount, customer, productName } = await req.json();
+    const { amount, customer, productName, phone } = await req.json();
 
     if (!amount || !customer?.name || !customer?.email || !customer?.cpf) {
       return new Response(
@@ -51,6 +51,7 @@ serve(async (req) => {
         customer: {
           name: customer.name,
           email: customer.email,
+          phone: customer.phone || phone || "",
           document: {
             number: customer.cpf,
             type: customer.cpf.length <= 11 ? "cpf" : "cnpj",
