@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { QrCode, CreditCard, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -197,25 +197,35 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
             {/* Payment method */}
             <div className="space-y-4">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Forma de pagamento</h3>
-              <Tabs value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as PaymentMethod)}>
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="pix" className="gap-2">
+              <div>
+                <div className="grid w-full grid-cols-2 rounded-md bg-muted p-1">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("pix")}
+                    className={`inline-flex items-center justify-center gap-2 rounded-sm px-3 py-1.5 text-sm font-medium transition-all ${paymentMethod === "pix" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}
+                  >
                     <QrCode className="h-4 w-4" />
                     PIX
-                  </TabsTrigger>
-                  <TabsTrigger value="card" className="gap-2">
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("card")}
+                    className={`inline-flex items-center justify-center gap-2 rounded-sm px-3 py-1.5 text-sm font-medium transition-all ${paymentMethod === "card" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground"}`}
+                  >
                     <CreditCard className="h-4 w-4" />
                     Cartão
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="pix" className="mt-4">
-                  <div className="rounded-lg border border-border bg-muted/50 p-4 text-sm text-muted-foreground">
+                  </button>
+                </div>
+
+                {paymentMethod === "pix" && (
+                  <div className="mt-4 rounded-lg border border-border bg-muted/50 p-4 text-sm text-muted-foreground">
                     <p className="font-medium text-foreground">Pagamento instantâneo via PIX</p>
                     <p className="mt-1">Após confirmar, você receberá o QR Code para pagamento.</p>
                   </div>
-                </TabsContent>
-                <TabsContent value="card" className="mt-4 space-y-4">
-                  <div className="grid gap-4">
+                )}
+
+                {paymentMethod === "card" && (
+                  <div className="mt-4 grid gap-4">
                     <FormField control={form.control} name="cardName" render={({ field }) => (
                       <FormItem>
                         <FormLabel>Nome impresso no cartão</FormLabel>
@@ -254,8 +264,8 @@ export const CheckoutForm = ({ product, onPixSuccess }: CheckoutFormProps) => {
                       </FormItem>
                     )} />
                   </div>
-                </TabsContent>
-              </Tabs>
+                )}
+              </div>
             </div>
 
             <Button type="submit" size="lg" className="w-full text-sm sm:text-base font-semibold min-h-[48px]" disabled={loading}>
